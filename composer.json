@@ -1,0 +1,18 @@
+{
+    "name": "mindplay/payload",
+    "type": "library",
+    "license": "MIT",
+    "description": "Encode and decode small data-payloads using filename and URL-safe characters",
+    "require": {
+        "php": ">=7"
+    },
+    "require-dev": {
+        "mindplay/testies": "^0.3.0",
+        "mindplay/readable": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "mindplay\\": "src/"
+        }
+    }
+}
