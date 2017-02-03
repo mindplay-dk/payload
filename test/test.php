@@ -1,11 +1,11 @@
 <?php
 
-use mindplay\Payload;
+use mindplay\PayloadService;
 use mindplay\readable;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-#configure()->enableVerboseOutput();
+configure()->enableVerboseOutput();
 
 test(
     'can encode/decode payloads',
@@ -21,11 +21,13 @@ test(
             ["size" => ["w" => "128", "h" => "128"]],
         ];
 
+        $service = new PayloadService();
+
         foreach ($valid as $payload) {
             ksort($payload, SORT_NATURAL); // encoding affects order
 
-            $encoded = Payload::encode($payload);
-            $decoded = Payload::decode($encoded);
+            $encoded = $service->encode($payload);
+            $decoded = $service->decode($encoded);
 
             eq($payload, $decoded, "encodes " . readable::value($payload) . " as {$encoded} and back");
         }
@@ -42,13 +44,14 @@ test(
             "",
         ];
 
+        $service = new PayloadService();
+
         foreach ($invalid as $payload) {
             expect(
                 InvalidArgumentException::class,
                 "should throw for invalid payload: {$payload}",
-                function () use ($payload) {
-                    $data = Payload::decode($payload);
-                    var_dump($data);
+                function () use ($service, $payload) {
+                    $service->decode($payload);
                 }
             );
         }
@@ -58,11 +61,13 @@ test(
 test(
     'prevents creation of payloads exceeding a given size',
     function () {
+        $service = new PayloadService(20);
+
         expect(
             InvalidArgumentException::class,
             "should throw if encoded string exceeds specified size",
-            function () {
-                Payload::encode(["01234567890123456789"], 20);
+            function () use ($service) {
+                $service->encode(["01234567890123456789"]);
             }
         );
     }
