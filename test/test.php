@@ -5,7 +5,7 @@ use mindplay\readable;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-configure()->enableVerboseOutput();
+#configure()->enableVerboseOutput();
 
 test(
     'can encode/decode payloads',
