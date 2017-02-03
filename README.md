@@ -4,6 +4,9 @@ mindplay/payload
 This library lets you encode and decode small data-payloads into strings
 that can be safely used in filenames and URLs.
 
+[![PHP Version](https://img.shields.io/badge/php-7.0%2B-blue.svg)](https://packagist.org/packages/mindplay/payload)
+[![Build Status](https://travis-ci.org/mindplay-dk/readable.svg)](https://travis-ci.org/mindplay-dk/payload)
+
 This can be useful for things like encoding resize/cropping-information into
 image URLs, creating personalized URLs for sharing things, etc.
 
