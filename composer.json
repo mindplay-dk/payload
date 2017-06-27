@@ -6,6 +6,9 @@
     "require": {
         "php": ">=7"
     },
+    "suggest": {
+        "ext-msgpack": "for efficient packing of larger payloads, install the msgpack PECL extension"
+    },
     "require-dev": {
         "mindplay/testies": "^0.3.0",
         "mindplay/readable": "^1.1"

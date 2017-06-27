@@ -5,7 +5,7 @@ use mindplay\readable;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-#configure()->enableVerboseOutput();
+configure()->enableVerboseOutput();
 
 test(
     'can encode/decode payloads',
@@ -17,8 +17,11 @@ test(
             ["a" => "b", "c" => "d"],
             ["a", "b", "c" => "d"],
             ["a" => "b", "c", "d"],
+            [123.456, 1234567890, -123456789, 0, null, -1, [[[["foo"]]]]],
             ["src" => "profile/18374.jpg", "size" => "160x160"],
-            ["size" => ["w" => "128", "h" => "128"]],
+            ["size" => ["w" => 128, "h" => 128]],
+            ["size" => [256, 128]],
+            ["c" => [200, 200, 400, 400], "d" => [150, 150, 250, 250], "q" => 85],
         ];
 
         $service = new PayloadService();
@@ -38,8 +41,8 @@ test(
     'fails to decode invalid/mangled payloads',
     function () {
         $invalid = [
-            "YIA8MD1hJjE9YiZjPWQ_",
-            "_YIA8MD1hJjE9YiZjPWQ",
+            "EN6lk6FhoWKhYw_",
+            "_EN6lk6FhoWKhYw",
             "???",
             "",
         ];

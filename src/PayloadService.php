@@ -32,6 +32,10 @@ class PayloadService
      */
     public function __construct(int $max_length = null, int $checksum_chars = 4, $private_salt = "")
     {
+        if (! function_exists("msgpack_pack")) {
+            require_once __DIR__ . '/_msgpack.php';
+        }
+
         $this->max_length = $max_length;
         $this->checksum_chars = $checksum_chars;
         $this->private_salt = $private_salt;
@@ -48,7 +52,7 @@ class PayloadService
     {
         ksort($payload, SORT_NATURAL); // ensure consistent key-order
 
-        $string = http_build_query($payload); // encode in RFC1738 query-string format
+        $string = msgpack_pack($payload); // encode in MsgPack format
         $string = base64_encode($string);
         $string = rtrim($string, '='); // truncate base64 boundary
         $string = $this->checksum($string) . $string; // prepend checksum chars
@@ -82,7 +86,7 @@ class PayloadService
 
         $data = @base64_decode($data, true);
 
-        @parse_str($data, $payload); // parse RFC1738 query-string
+        $payload = @msgpack_unpack($data); // parse MsgPack string
 
         if (is_array($payload)) {
             return $payload;
